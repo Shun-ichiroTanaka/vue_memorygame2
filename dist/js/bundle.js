@@ -27860,7 +27860,7 @@ new _vue2.default({
 		finishGame: function finishGame() {
 			this.started = false;
 			clearInterval(this.timer);
-			var score = 1000 - ((0, _moment2.default)().diff(this.startTime, 'seconds') - CardTypes.length * 5) * 3 - (this.turns - CardTypes.length) * 5;
+			var score = 120 - ((0, _moment2.default)().diff(this.startTime, 'seconds') - CardTypes.length * 1) - (this.turns - CardTypes.length) * 1;
 			this.score = Math.max(score, 0);
 			this.showSplash = true;
 		},

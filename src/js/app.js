@@ -90,7 +90,7 @@ new Vue({
 		finishGame() {
 			this.started = false;
 			clearInterval(this.timer);
-			let score = 1000 - (moment().diff(this.startTime, 'seconds') - CardTypes.length * 5) * 3 - (this.turns - CardTypes.length) * 5;
+			let score = 120 - (moment().diff(this.startTime, 'seconds') - CardTypes.length * 1) - (this.turns - CardTypes.length) * 1;
 			this.score = Math.max(score, 0);
 			this.showSplash = true;
 		},
