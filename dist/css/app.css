@@ -23,6 +23,8 @@ html {
 }
 
 .info {
+  display: flex;
+  justify-content: center;
   padding-bottom: .5em;
   text-align: center;
   border-bottom: 1px solid #555;
