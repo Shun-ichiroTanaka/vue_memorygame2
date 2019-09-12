@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <title>神経衰弱ゲーム</title>
+  <script src="https://use.fontawesome.com/e3ae05b8e6.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Monda&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="dist/css/app.css">
+</head>
+<body>
+
+
+<div id="app">
+  <div class="info">
+    <div><span class="label">Time:</span><span class="value">{{ time }} </span></div>
+    <div><span class="label">Turns:</span><span class="value">{{ turns }} </span></div>
+  </div>
+  <div class="cards">
+    <div class="card" v-for="card in cards" :class="{ flipped: card.flipped, found: card.found }" @click="flipCard(card)">
+      <div class="back"></div>
+      <div class="front" :style="{ backgroundImage: 'url(' + card.image + ')' }"></div>
+    </div>
+  </div>
+
+
+  <div class="splash" v-if="showSplash">
+    <div class="overlay"></div>
+    <div class="content">
+      <div class="title">Finished!</div>
+      <div class="score">Score: {{ score }}</div>
+      <button class="newGame" @click="resetGame()">New game</button>
+      <social-sharing url="https://shun-ichirotanaka.github.io/vue_memorycardgame/"
+      title="神経衰弱"
+      description="神経衰弱のスコアを測ってみた"
+      quote="Vue is a progressive framework for building user interfaces."
+      hashtags="Vue.js,javascript,神経衰弱,ゲーム"
+      twitter-user=""
+      inline-template>
+      <div class="sns">
+          <network network="twitter" class="twitter"><i class="fa fa-fw fa-twitter"></i>Twitter</network>
+          <network network="line" class="line"><i class="fab fa-line"></i> Line</network></div>
+      </social-sharing></div>
+  </div>
+
+</div>
+
+<script src="dist/js/bundle.js"></script>
+</body>
+</html>
