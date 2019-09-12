@@ -27788,7 +27788,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 _vue2.default.use(_vueSocialSharing2.default);
 
-var CardTypes = [{ name: "suda1", image: "./dist/img/1.jpg" }, { name: "suda2", image: "./dist/img/2.jpg" }, { name: "suda3", image: "./dist/img/3.jpg" }, { name: "suda4", image: "./dist/img/4.jpg" }, { name: "suda5", image: "./dist/img/5.jpg" }, { name: "suda6", image: "./dist/img/6.jpg" }, { name: "suda7", image: "./dist/img/7.jpg" }, { name: "suda8", image: "./dist/img/8.jpg" }, { name: "suda9", image: "./dist/img/9.jpg" }, { name: "suda10", image: "./dist/img/10.jpg" }];
+var CardTypes = [{ name: "1", image: "./dist/img/1.jpg" }, { name: "2", image: "./dist/img/2.jpg" }, { name: "3", image: "./dist/img/3.jpg" }, { name: "4", image: "./dist/img/4.jpg" }, { name: "5", image: "./dist/img/5.jpg" }, { name: "6", image: "./dist/img/6.jpg" }, { name: "7", image: "./dist/img/7.jpg" }, { name: "8", image: "./dist/img/8.jpg" }, { name: "9", image: "./dist/img/9.jpg" }, { name: "10", image: "./dist/img/10.jpg" }];
 
 var shuffleCards = function shuffleCards() {
 	var cards = [].concat(_lodash2.default.cloneDeep(CardTypes), _lodash2.default.cloneDeep(CardTypes));
