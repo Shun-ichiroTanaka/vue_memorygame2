@@ -1,8 +1,12 @@
 import Vue from 'vue'
+// JavaScriptのdateオブジェクトは中々に使いづらい。moment.jsはそれを非常に使いやすい形にラッピングしたモジュール
 import moment from 'moment'
+// lodashは便利な関数をまとめて提供しているライブラリで値の操作に長けた便利関数が数多く存在する
 import _ from 'lodash';
+// twitterカードなどのSNSの共有を楽にしてくれる
 import SocialSharing from 'vue-social-sharing'
 Vue.use(SocialSharing)
+
 
 let CardTypes = [
 	{ name: "1", image: "./dist/img/1.jpg" },
@@ -17,10 +21,15 @@ let CardTypes = [
     { name: "10", image: "./dist/img/10.jpg" },
 ];
 
+
 let shuffleCards = () => {
+	// concat() メソッドは、配列に他の配列や値をつないでできた新しい配列を返します。
 	let cards = [].concat(_.cloneDeep(CardTypes), _.cloneDeep(CardTypes));
+	// つないでできた新しい cards をシャッフルする
 	return _.shuffle(cards);
 }
+
+
 new Vue({
 	el: "#app",
 
@@ -53,10 +62,12 @@ new Vue({
 			this.cards = cards;
 		},
 
+		// カードをひっくり返す
 		flippedCards() {
 			return _.filter(this.cards, card => card.flipped);
 		},
 
+		// 同じカードを2枚ひっくり返した場合
 		sameFlippedCard() {
 			let flippedCards = this.flippedCards();
 			if (flippedCards.length == 2) {
@@ -65,6 +76,7 @@ new Vue({
 			}
 		},
 
+		// カードがひっくり返されているならそのカードはもう使用済みであるという処理
 		setCardFounds() {
 			_.each(this.cards, (card) => {
 				if (card.flipped)
@@ -72,21 +84,28 @@ new Vue({
 			});
 		},
 
+		// 全てのカードが見つかった場合
 		checkAllFound() {
+			// 「filter」の中で、特定の条件を与えて配列データを取得したい内容を「コールバック関数」に書くことで、
+			// 任意のデータを抽出して新しい配列を生成します。
 			let foundCards = _.filter(this.cards, card => card.found);
 			if (foundCards.length == this.cards.length)
 				return true;
 		},
 
+		// ゲームスタート
 		startGame() {
 			this.started = true;
-			this.startTime = moment();
+			// momentオブジェクトはjavaScriptのdateオブジェクトをラッピングしたオブジェクト
+			this.startTime = moment(); // etc) moment("2019-09-13T14:06:32.809")
 
+			// setInterval() メソッドは、一定の遅延間隔を置いて関数やコードスニペットを繰り返し呼び出します
 			this.timer = setInterval(() => {
 				this.time = moment(moment().diff(this.startTime)).format("mm:ss");
 			}, 1000);
 		},
 
+		// ゲーム終了
 		finishGame() {
 			this.started = false;
 			clearInterval(this.timer);
@@ -95,6 +114,7 @@ new Vue({
 			this.showSplash = true;
 		},
 
+		// ゲームリスタート後、ひっくり返されたカードを戻す
 		flipCard(card) {
 			if (card.found || card.flipped) return;
 
@@ -112,6 +132,7 @@ new Vue({
 
 				if (this.sameFlippedCard()) {
 					// Match!
+					// seTimeout()は一定時間経過後に処理を一回だけ実行する
 					this.flipBackTimer = setTimeout( ()=> {
 						this.clearFlipBackTimer();
 						this.setCardFounds();
@@ -134,17 +155,20 @@ new Vue({
 		},
 
 		clearFlips() {
+			// map()は第1引数「配列（Object）」の各値に第2引数で指定した関数を適用し、結果を配列にして返す。
 			_.map(this.cards, card => card.flipped = false);
 		},
 
 
 		clearFlipBackTimer() {
+			// clearTimeout()はsetTimeout()でセットしたタイマーを解除する
 			clearTimeout(this.flipBackTimer);
 			this.flipBackTimer = null;
 		}
 	},
 
 	created() {
+		// resetGame()はゲームを初期化するメソッド
 		this.resetGame();
 	}
 });

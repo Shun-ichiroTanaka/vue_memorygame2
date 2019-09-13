@@ -27786,14 +27786,22 @@ var _vueSocialSharing2 = _interopRequireDefault(_vueSocialSharing);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+// lodashは便利な関数をまとめて提供しているライブラリで値の操作に長けた便利関数が数多く存在する
 _vue2.default.use(_vueSocialSharing2.default);
+// twitterカードなどのSNSの共有を楽にしてくれる
+
+// JavaScriptのdateオブジェクトは中々に使いづらい。moment.jsはそれを非常に使いやすい形にラッピングしたモジュール
+
 
 var CardTypes = [{ name: "1", image: "./dist/img/1.jpg" }, { name: "2", image: "./dist/img/2.jpg" }, { name: "3", image: "./dist/img/3.jpg" }, { name: "4", image: "./dist/img/4.jpg" }, { name: "5", image: "./dist/img/5.jpg" }, { name: "6", image: "./dist/img/6.jpg" }, { name: "7", image: "./dist/img/7.jpg" }, { name: "8", image: "./dist/img/8.jpg" }, { name: "9", image: "./dist/img/9.jpg" }, { name: "10", image: "./dist/img/10.jpg" }];
 
 var shuffleCards = function shuffleCards() {
+	// concat() メソッドは、配列に他の配列や値をつないでできた新しい配列を返します。
 	var cards = [].concat(_lodash2.default.cloneDeep(CardTypes), _lodash2.default.cloneDeep(CardTypes));
+	// つないでできた新しい cards をシャッフルする
 	return _lodash2.default.shuffle(cards);
 };
+
 new _vue2.default({
 	el: "#app",
 
@@ -27825,38 +27833,60 @@ new _vue2.default({
 
 			this.cards = cards;
 		},
+
+
+		// カードをひっくり返す
 		flippedCards: function flippedCards() {
 			return _lodash2.default.filter(this.cards, function (card) {
 				return card.flipped;
 			});
 		},
+
+
+		// 同じカードを2枚ひっくり返した場合
 		sameFlippedCard: function sameFlippedCard() {
 			var flippedCards = this.flippedCards();
 			if (flippedCards.length == 2) {
 				if (flippedCards[0].name == flippedCards[1].name) return true;
 			}
 		},
+
+
+		// カードがひっくり返されているならそのカードはもう使用済みであるという処理
 		setCardFounds: function setCardFounds() {
 			_lodash2.default.each(this.cards, function (card) {
 				if (card.flipped) card.found = true;
 			});
 		},
+
+
+		// 全てのカードが見つかった場合
 		checkAllFound: function checkAllFound() {
+			// 「filter」の中で、特定の条件を与えて配列データを取得したい内容を「コールバック関数」に書くことで、
+			// 任意のデータを抽出して新しい配列を生成します。
 			var foundCards = _lodash2.default.filter(this.cards, function (card) {
 				return card.found;
 			});
 			if (foundCards.length == this.cards.length) return true;
 		},
+
+
+		// ゲームスタート
 		startGame: function startGame() {
 			var _this = this;
 
 			this.started = true;
-			this.startTime = (0, _moment2.default)();
+			// momentオブジェクトはjavaScriptのdateオブジェクトをラッピングしたオブジェクト
+			this.startTime = (0, _moment2.default)(); // etc) moment("2019-09-13T14:06:32.809")
 
+			// setInterval() メソッドは、一定の遅延間隔を置いて関数やコードスニペットを繰り返し呼び出します
 			this.timer = setInterval(function () {
 				_this.time = (0, _moment2.default)((0, _moment2.default)().diff(_this.startTime)).format("mm:ss");
 			}, 1000);
 		},
+
+
+		// ゲーム終了
 		finishGame: function finishGame() {
 			this.started = false;
 			clearInterval(this.timer);
@@ -27864,6 +27894,9 @@ new _vue2.default({
 			this.score = Math.max(score, 0);
 			this.showSplash = true;
 		},
+
+
+		// ゲームリスタート後、ひっくり返されたカードを戻す
 		flipCard: function flipCard(card) {
 			var _this2 = this;
 
@@ -27882,6 +27915,7 @@ new _vue2.default({
 
 				if (this.sameFlippedCard()) {
 					// Match!
+					// seTimeout()は一定時間経過後に処理を一回だけ実行する
 					this.flipBackTimer = setTimeout(function () {
 						_this2.clearFlipBackTimer();
 						_this2.setCardFounds();
@@ -27901,17 +27935,20 @@ new _vue2.default({
 			}
 		},
 		clearFlips: function clearFlips() {
+			// map()は第1引数「配列（Object）」の各値に第2引数で指定した関数を適用し、結果を配列にして返す。
 			_lodash2.default.map(this.cards, function (card) {
 				return card.flipped = false;
 			});
 		},
 		clearFlipBackTimer: function clearFlipBackTimer() {
+			// clearTimeout()はsetTimeout()でセットしたタイマーを解除する
 			clearTimeout(this.flipBackTimer);
 			this.flipBackTimer = null;
 		}
 	},
 
 	created: function created() {
+		// resetGame()はゲームを初期化するメソッド
 		this.resetGame();
 	}
 });
